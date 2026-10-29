@@ -1,0 +1,32 @@
+---
+title: '0002 · Group duplicate reports by evidenced cause'
+owner: Tomasz Richert
+status: proposed
+reviewed: '2026-10-29'
+signature: 'v1.eyJzdWIiOiIyMTI1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyNjEzNzMsImV4cCI6MTc5MzM0Nzc3M30.xja_wltJpieRvSbtdWGytetC7ICthbLIJtScYXwXTWE'
+---
+
+<script>
+  import Runbook from '#lib/layouts/runbook.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+<Runbook {title} {owner} {status} {reviewed}>
+
+## Context
+
+Decision 0001 accepted subject-only merging. #4471 demonstrates that one subject can contain different causes and that reports with different subjects can share a cause. The executable deduplication examples also distinguish form/app channels and tenant form versions. Intake tags are guesses.
+
+## Proposed decision
+
+Replace subject equality as the merge criterion with an evidenced shared failure mechanism. Normalize subjects only to find candidates. Read report bodies, resolve tenant locale and booking-form version, and compare channels using the supplied cause rules. Merge only when both causes are known and equal. Leave unknown tenants unplaced for investigation; do not merge merely because their subjects match.
+
+Keep one report per ID, retaining conflicting versions if a future export disagrees. Keep received time separate from merge time. Recalculate counts from evidence and retain anomalous testimony even when the current classifier assigns it to a cause.
+
+## Consequences
+
+Triage takes more reading but no longer treats a shared phrase as proof of a shared bug. Separate parser and hint tickets require separate fixes. Preserve decision 0001 unchanged; this new record replaces it only after desk acceptance. Until then this is a proposal, not an accepted policy change.
+
+<RenderStamp {signature} />
+
+</Runbook>

@@ -1,0 +1,48 @@
+---
+title: '#4471 reassessed: two date causes, one merged queue'
+owner: Tomasz Richert
+status: proposed
+reviewed: '2026-10-29'
+signature: 'v1.eyJzdWIiOiIyMTI1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyNjEzNzMsImV4cCI6MTc5MzM0Nzc3M30.xja_wltJpieRvSbtdWGytetC7ICthbLIJtScYXwXTWE'
+---
+
+<script>
+  import Runbook from '#lib/layouts/runbook.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import Reassessment from '#lib/kb/Reassessment.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+<Runbook {title} {owner} {status} {reviewed}>
+
+This reassessment supersedes the original incident page's **“One issue, one fix queued”** conclusion for the exported reports. The source export is dated 2026-10-04. The tenant directory and executable classifier identify two causes; intake tags and browser locale alone do not identify a cause.
+
+## Problems and counts
+
+<CauseTable ticket={4471} />
+
+- **Parser — 379 reports:** the shared parser reads month first although these tenants write day first. Use the tenant's configured locale when parsing; validate ambiguous input. This affects app/email paths and form paths not assigned to the hint cause. Examples: R-41200 and R-41201, Harbour Dental, booking-v2, en-GB.
+- **Form hint — 33 reports:** booking-v3 prints `MM/DD/YYYY`, while the form reads input in its tenant's day-first order. Align the displayed hint and input interpretation. A parser fix alone does not repair this mismatch. The affected form tenants are Alder Physio, Copper Studio and Pale Harbour. Examples: R-41230, R-41241 and R-41251.
+
+One GitHub issue is prepared per cause. Counts come from unique report IDs merged into #4471, resolved through tenant locale and form version using the supplied `causeOf` function. They are neither raw row counts nor intake-tag totals. The five timing exceptions below stay visible pending investigation.
+
+<Reassessment />
+
+<QueueTimeline ticket={4471} />
+
+## Triage correction
+
+Subject matches are candidate links, not evidence that reports share a cause. Read the body, resolve the tenant's configuration and channel, and compare the failure mechanism. Different subjects can share a cause; identical subjects can describe different causes. Unknown tenants remain unplaced until investigated.
+
+See decision 0002 in `src/routes/kb/decisions/0002-dedupe-by-cause/+page.svx`. Accepted decision 0001 is preserved as history. This page proposes the replacement; it does not pretend the desk has accepted it.
+
+## Verification and follow-up
+
+Test a day-first tenant through app/email and booking-v2 with ambiguous dates, then test booking-v3 with both day-first input and input following the displayed hint. Check a month-first locale as a control. Verify expected dates across the hint, saved booking and invite. Classify new arrivals separately and recalculate counts; this export is not the live queue. Obtain original timestamps and timezone data for the unresolved observations before concluding that they share a cause.
+
+Evidence: the original incident page, `causes.ts`, `locales.ts`, tenant JSON, `reports-4471.json`, `desk-notes.json`, `CauseTable.svelte` and `QueueTimeline.svelte`. Classifier output is an observed property of the supplied KB; report text is testimony, not independent proof of a backend mechanism.
+
+<RenderStamp {signature} />
+
+</Runbook>
