@@ -1,5 +1,9 @@
 # Date parser reads month first for day-first tenants — 379 reports
 
+## Engineering disposition
+
+Live desk update checked 2026-10-29: `#4471 · closed 05 oct`; parser **fixed**, `fix(dates): parse dd/mm for eu locales`. Close this issue as completed. This disposition does not independently resolve the five timing observations preserved below.
+
 ## Problem
 
 The shared parser reads dates month first, but the affected tenants write day first. Ambiguous dates flip month and day. This is separate from booking-v3's misleading date-field hint.

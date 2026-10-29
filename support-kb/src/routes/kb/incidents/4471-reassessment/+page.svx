@@ -1,7 +1,7 @@
 ---
 title: '#4471 reassessed: two date causes, one merged queue'
 owner: Tomasz Richert
-status: proposed
+status: closed
 reviewed: '2026-10-29'
 signature: 'v1.eyJzdWIiOiIyMTI1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyNjEzNzMsImV4cCI6MTc5MzM0Nzc3M30.xja_wltJpieRvSbtdWGytetC7ICthbLIJtScYXwXTWE'
 ---
@@ -17,6 +17,12 @@ signature: 'v1.eyJzdWIiOiIyMTI1IiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpY
 <Runbook {title} {owner} {status} {reviewed}>
 
 This reassessment supersedes the original incident page's **“One issue, one fix queued”** conclusion for the exported reports. The source export is dated 2026-10-04. The tenant directory and executable classifier identify two causes; intake tags and browser locale alone do not identify a cause.
+
+## Engineering disposition — 2026-10-05
+
+The course's live desk update, checked on 2026-10-29, states **“#4471 · closed 05 oct”**. The parser is **fixed**, with commit description `fix(dates): parse dd/mm for eu locales`. The hint is **won't fix**, because the **booking-v3 form retired**. Retirement is not a hint correction, and closure is not evidence that every report was fixed.
+
+Close [parser issue #1](https://github.com/tomaszrichert/mega-s01e03/issues/1) as completed and [hint issue #2](https://github.com/tomaszrichert/mega-s01e03/issues/2) as not planned. The original population remains 379 parser and 33 hint reports; the five unresolved timing observations remain preserved. The desk update supplies dispositions, not independent investigation of those five observations. Decision 0002 below remains a proposal.
 
 ## Problems and counts
 

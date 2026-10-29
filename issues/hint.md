@@ -1,5 +1,9 @@
 # booking-v3 date hint contradicts tenant-local parsing — 33 reports
 
+## Engineering disposition
+
+Live desk update checked 2026-10-29: `#4471 · closed 05 oct`; hint **won't fix**, because **booking-v3 form retired**. Close this issue as not planned, not as a shipped hint fix. Preserve its 33-report history.
+
 ## Problem
 
 booking-v3 displays `MM/DD/YYYY`, but its form interprets dates in the tenant's day-first order. Users following the displayed hint get a different date. A shared-parser fix does not fix this UI/input-contract mismatch.
